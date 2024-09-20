@@ -10,3 +10,7 @@ build/
 
 # Ignore TypeScript cache
 *.tsbuildinfo
+
+# Ignore all .js files and .map files
+*.js
+*.js.map
