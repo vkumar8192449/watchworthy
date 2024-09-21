@@ -4,6 +4,8 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import validator from "validator";
 import { passwordStrength } from "check-password-strength";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const prisma = new PrismaClient();
 
@@ -23,8 +25,10 @@ export const createUserController = async (req: Request, res: Response) => {
       throw new Error("Enter strong password");
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await prisma.user.create({
-      data: { username, email, password },
+      data: { username, email, password: hashedPassword },
     });
     res.json(user);
   } catch (error: any) {
@@ -46,10 +50,29 @@ export const loginUserController = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    // Compare the provided password with the stored password
-    if (user.password !== password) {
-      return res.status(400).json({ message: "Invalid email or password" });
+    // Check if the password is correct
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
+
+    // Generate a JWT token
+    const token = jwt.sign(
+      { userId: user.user_id },
+      process.env.JWT_SECRET || "default_secret",
+      {
+        expiresIn: "3d",
+      }
+    );
+
+    // Set JWT token in HttpOnly cookie
+    res.cookie("WatchWorthy-Token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+    });
 
     // Successful login
     res.status(200).json({
@@ -60,4 +83,13 @@ export const loginUserController = async (req: Request, res: Response) => {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
+};
+
+export const logoutUserController = async (req: Request, res: Response) => {
+  res.clearCookie("WatchWorthy-Token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.status(200).json({ message: "Logged out successfully!" });
 };

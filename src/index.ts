@@ -3,10 +3,12 @@ import userRoutes from "./routes/userRoutes";
 import movieRoutes from "./routes/moviesRoutes";
 import ratingRoutes from "./routes/ratingRoutes";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser()); // Parse cookies
 
 app.use(
   cors({
