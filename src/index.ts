@@ -2,10 +2,18 @@ import express from "express";
 import userRoutes from "./routes/userRoutes";
 import movieRoutes from "./routes/moviesRoutes";
 import ratingRoutes from "./routes/ratingRoutes";
+import cors from "cors";
 
 const app = express();
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: process.env.ORIGIN?.split(","),
+    credentials: true,
+  })
+);
 
 // Register the user routes
 app.use("/api/users", userRoutes);
