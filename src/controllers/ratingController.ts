@@ -9,12 +9,16 @@ export const createRatingController = async (req: Request, res: Response) => {
   const { user_id, movie_id, rating, review } = req.body;
 
   try {
+    if (rating < 1 || rating > 5) {
+      throw new Error("Invalid rating");
+    }
+
     const newRating = await prisma.rating.create({
       data: { user_id, movie_id, rating, review },
     });
     res.json(newRating);
-  } catch (error) {
-    res.status(400).json({ error: "Rating creation failed" });
+  } catch (error: any) {
+    res.status(400).json({ error: error.message || "Rating creation failed" });
   }
 };
 
