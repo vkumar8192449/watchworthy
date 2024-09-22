@@ -33,3 +33,28 @@ export const createMoviesController = async (
     res.status(400).json({ error: error.message || "Movie creation failed" });
   }
 };
+
+export const getAllMoviesController = async (req: Request, res: Response) => {
+  const { page = 1, limit = 4 } = req.body; // Extract page and limit from the request body
+
+  try {
+    const movies = await prisma.movie.findMany({
+      skip: (page - 1) * limit, // Skip movies based on the page number
+      take: limit, // Limit to the number of movies requested
+      orderBy: {
+        release_year: "desc", // Sort by release_year in descending order
+      },
+    });
+
+    // Get the total number of movies (optional, for frontend pagination logic)
+    const totalMovies = await prisma.movie.count();
+
+    res.status(200).json({
+      movies,
+      totalMovies,
+      hasMore: page * limit < totalMovies, // Whether there are more movies to load
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: "Failed to retrieve movies." });
+  }
+};
