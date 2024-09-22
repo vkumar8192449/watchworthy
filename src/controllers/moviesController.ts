@@ -58,3 +58,36 @@ export const getAllMoviesController = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to retrieve movies." });
   }
 };
+
+export const getMovieDetailsController = async (
+  req: Request,
+  res: Response
+) => {
+  const { movie_id } = req.params; // Assuming movie_id is passed as a URL parameter
+
+  try {
+    // Fetch movie details along with ratings
+    const movie = await prisma.movie.findUnique({
+      where: { movie_id: Number(movie_id) },
+      include: {
+        ratings: {
+          select: {
+            rating: true,
+            review: true,
+            user: { select: { username: true } }, // Adjust based on your user model
+          },
+        },
+      },
+    });
+
+    if (!movie) {
+      return res.status(404).json({ message: "Movie not found" });
+    }
+
+    res.json(movie);
+  } catch (error: any) {
+    res.status(500).json({
+      error: error.message || "An error occurred while fetching movie details",
+    });
+  }
+};
