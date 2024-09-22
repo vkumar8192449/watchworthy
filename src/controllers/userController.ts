@@ -82,7 +82,7 @@ export const loginUserController = async (req: Request, res: Response) => {
     // Successful login
     res
       .status(200)
-      .cookie("WatchWorthy-Token", token, options)
+      .cookie("WatchWorthyToken", token, options)
       .json({
         message: "Login successful",
         user: { email: user.email, username: user.username },

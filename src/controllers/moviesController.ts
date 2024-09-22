@@ -3,10 +3,22 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import validator from "validator";
+import { AuthenticatedRequest } from "../middleware/auth";
 
 const prisma = new PrismaClient();
 
-export const createMoviesController = async (req: Request, res: Response) => {
+export const createMoviesController = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "User not authenticated." });
+  }
+
+  if (req.user.type === "user") {
+    return res.status(401).json({ message: "Access denied." });
+  }
+
   const { title, genre, release_year, description } = req.body;
   try {
     if (!validator.isNumeric(release_year.toString())) {

@@ -5,16 +5,17 @@ import { Request, Response, NextFunction } from "express"; // Import types from 
 interface JwtPayload {
   userId: string;
   username: string;
+  type?: string;
 }
 
 // Extend the Request interface to include a 'user' property
-interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
   user?: JwtPayload; // or any other type based on your payload structure
 }
 
 // Middleware to verify JWT token from cookies
 const auth = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const token = req.cookies.token; // Extract token from cookies
+  const token = req.cookies.WatchWorthyToken; // Extract token from cookies
 
   if (!token) {
     return res
@@ -31,7 +32,6 @@ const auth = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
 
     // Attach decoded user info to the request
     req.user = decoded;
-    console.log(decoded);
 
     // Pass control to the next middleware or route handler
     next();
