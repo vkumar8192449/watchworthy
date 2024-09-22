@@ -22,6 +22,9 @@ const SignIn = () => {
         {
           email,
           password,
+        },
+        {
+          withCredentials: true, // Ensure cookies are sent with requests
         }
       );
 

@@ -4,6 +4,7 @@ import movieRoutes from "./routes/moviesRoutes";
 import ratingRoutes from "./routes/ratingRoutes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import auth from "./middleware/auth";
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.use(
 app.use("/api/users", userRoutes);
 
 // Create a movie
-app.use("/api/movies", movieRoutes);
+app.use("/api/movies", auth, movieRoutes);
 
 // Create or Get a rating/s
 app.use("/api/rating", ratingRoutes);

@@ -6,6 +6,7 @@ import validator from "validator";
 import { passwordStrength } from "check-password-strength";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { CookieOptions } from "express";
 
 const prisma = new PrismaClient();
 
@@ -30,7 +31,9 @@ export const createUserController = async (req: Request, res: Response) => {
     const user = await prisma.user.create({
       data: { username, email, password: hashedPassword },
     });
-    res.json(user);
+    res.status(201).json({
+      message: "Signup successful",
+    });
   } catch (error: any) {
     res.status(400).json({ error: error.message || "User creation failed" });
   }
@@ -59,7 +62,7 @@ export const loginUserController = async (req: Request, res: Response) => {
 
     // Generate a JWT token
     const token = jwt.sign(
-      { userId: user.user_id },
+      { userId: user.user_id, type: user.type, username: user.username },
       process.env.JWT_SECRET || "default_secret",
       {
         expiresIn: "3d",
@@ -67,18 +70,23 @@ export const loginUserController = async (req: Request, res: Response) => {
     );
 
     // Set JWT token in HttpOnly cookie
-    res.cookie("WatchWorthy-Token", token, {
+    // res;
+
+    const options: CookieOptions = {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-    });
+      maxAge: 3 * 24 * 60 * 60 * 1000,
+    };
 
     // Successful login
-    res.status(200).json({
-      message: "Login successful",
-      user: { email: user.email, username: user.username },
-    });
+    res
+      .status(200)
+      .cookie("WatchWorthy-Token", token, options)
+      .json({
+        message: "Login successful",
+        user: { email: user.email, username: user.username },
+      });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

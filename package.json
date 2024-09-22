@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "npx tsc",
+    "dev": "npm run compile && nodemon src/index.js",
+    "start": "npm run compile && node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +32,7 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.5.5",
     "@types/validator": "^13.12.2",
+    "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   }

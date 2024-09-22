@@ -28,6 +28,10 @@ const AddMovie = () => {
           genre,
           release_year: releaseYear,
           description,
+        },
+        {
+          // Additional configuration, including withCredentials
+          withCredentials: true,
         }
       );
 
