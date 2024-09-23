@@ -5,10 +5,11 @@ import {
   createRatingController,
   getMovieRatingsController,
 } from "../controllers/ratingController";
+import auth from "../middleware/auth";
 
 const router = Router();
 
-router.post("/add-rating", createRatingController);
-router.get("/get-all-rating/:id", getMovieRatingsController);
+router.post("/add-rating", auth, createRatingController);
+router.get("/get-all-rating", auth, getMovieRatingsController);
 
 export default router;

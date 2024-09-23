@@ -1,9 +1,9 @@
-// app/movie-show/[movie_id]/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { notFound } from "next/navigation";
+import RatingForm from "../../../../components/RatingForm"; // Adjust the import based on your file structure
 
 interface MovieDetail {
   movie_id: number;
@@ -18,29 +18,32 @@ interface MovieDetail {
   }>;
 }
 
-// The parameters object will automatically include the dynamic route params
 const MovieDetail = ({ params }: { params: { movie_id: string } }) => {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        const response = await axios.get<MovieDetail>(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/movies/${params.movie_id}`
-        );
-        setMovie(response.data);
-      } catch (err) {
-        setError("Failed to load movie details.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchMovieDetails = async () => {
+    try {
+      const response = await axios.get<MovieDetail>(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/movies/${params.movie_id}`
+      );
+      setMovie(response.data);
+    } catch (err) {
+      setError("Failed to load movie details.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchMovieDetails();
   }, [params.movie_id]);
+
+  const handleRatingSubmitted = () => {
+    fetchMovieDetails(); // Refresh movie details to include new rating
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -57,10 +60,15 @@ const MovieDetail = ({ params }: { params: { movie_id: string } }) => {
         <ul>
           {movie.ratings.map((rating, index) => (
             <li key={index} className="mb-1">
-              {rating.user.username} : {rating.rating} ⭐ - {rating.review}
+              {rating.user.username}: {rating.rating} ⭐ - {rating.review}
             </li>
           ))}
         </ul>
+        <br />
+        <RatingForm
+          movieId={movie.movie_id}
+          onRatingSubmitted={handleRatingSubmitted}
+        />
       </div>
     </div>
   );

@@ -1,12 +1,20 @@
 // controllers/ratingController.ts
 
-import { Request, Response } from "express";
+import { Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { AuthenticatedRequest } from "../middleware/auth";
 
 const prisma = new PrismaClient();
 
-export const createRatingController = async (req: Request, res: Response) => {
-  const { user_id, movie_id, rating, review } = req.body;
+export const createRatingController = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  const { movie_id, rating, review } = req.body;
+  if (!req.user) {
+    return res.status(401).json({ message: "User not authenticated." });
+  }
+  const user_id = Number(req.user.userId);
 
   try {
     if (rating < 1 || rating > 5) {
@@ -23,18 +31,34 @@ export const createRatingController = async (req: Request, res: Response) => {
 };
 
 export const getMovieRatingsController = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response
 ) => {
-  const { id } = req.params;
+  if (!req.user) {
+    return res.status(401).json({ message: "User not authenticated." });
+  }
+
+  const user_id = Number(req.user.userId);
 
   try {
     const ratings = await prisma.rating.findMany({
-      where: { movie_id: Number(id) },
-      include: { user: true },
+      where: { user_id: Number(user_id) }, // Ensure user_id is a number
+      include: {
+        movie: true, // Include related movie data if needed
+      },
     });
-    res.json(ratings);
+
+    if (ratings.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No ratings found for this user" });
+    }
+
+    return res.status(200).json(ratings);
   } catch (error) {
-    res.status(400).json({ error: "Failed to retrieve ratings" });
+    console.error(error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred while fetching ratings" });
   }
 };
