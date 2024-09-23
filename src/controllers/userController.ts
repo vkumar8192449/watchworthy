@@ -7,6 +7,7 @@ import { passwordStrength } from "check-password-strength";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { CookieOptions } from "express";
+import { AuthenticatedRequest } from "../middleware/auth";
 
 const prisma = new PrismaClient();
 
@@ -100,4 +101,13 @@ export const logoutUserController = async (req: Request, res: Response) => {
     sameSite: "none",
   });
   res.status(200).json({ message: "Logged out successfully!" });
+};
+
+export const currentUserController = async (
+  req: AuthenticatedRequest,
+  res: Response
+) => {
+  return res
+    .status(200)
+    .json({ user: req.user, message: "User authenticated." });
 };
