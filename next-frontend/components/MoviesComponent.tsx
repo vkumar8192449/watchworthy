@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useState, useEffect } from "react";
+import Link from "next/link"; // Import Link from Next.js
 
 // Define the types for movie and response data
 interface Movie {
@@ -64,29 +65,34 @@ const MoviesComponent = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 py-8">
-      <h1 className="text-4xl font-bold text-gray-800 mb-6">Movies</h1>
-      <div className="w-full max-w-4xl flex flex-wrap justify-center gap-6">
+      <h1 className="text-4xl font-bold text-gray-800 mb-8">Movies</h1>
+      <br />
+      <div className="w-full max-w-4xl flex flex-wrap justify-center gap-8">
         {movies.map((movie) => (
           <div
             key={movie.movie_id}
-            className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 w-full sm:w-1/3 lg:w-1/4"
+            className="bg-white shadow-lg rounded-lg overflow-hidden transition-transform transform hover:scale-105 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 cursor-pointer"
           >
-            <div className="p-6 flex flex-col items-center">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                {movie.title}
-              </h2>
-              <p className="text-gray-600 mb-1">({movie.release_year})</p>
-              <p className="text-gray-700 mt-2 font-medium">
-                Genre: {movie.genre}
-              </p>
-            </div>
+            <Link href={`/movie-show/${movie.movie_id}`}>
+              <div className="p-6 flex flex-col items-center">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
+                  {movie.title}
+                </h2>
+                <p className="text-gray-600 mb-1">({movie.release_year})</p>
+                <p className="text-gray-700 mt-2 font-medium">
+                  Genre: {movie.genre}
+                </p>
+              </div>
+            </Link>
           </div>
         ))}
       </div>
+      <br />
       {hasMore && (
         <button
           onClick={loadMoreMovies}
-          className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
+          style={{ padding: "0.8rem 1.8rem" }} // Apply padding inline
+          className="mt-10 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-300"
         >
           Load More
         </button>
