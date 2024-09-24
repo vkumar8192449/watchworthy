@@ -65,7 +65,7 @@ const MoviesComponent = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 py-8">
-      <h1 className="text-4xl font-bold text-gray-800 mb-8">Movies</h1>
+      <h1 className="text-4xl font-bold text-gray-800 mb-8">Movies/Shows</h1>
       <br />
       <div className="w-full max-w-4xl flex flex-wrap justify-center gap-8">
         {movies.map((movie) => (

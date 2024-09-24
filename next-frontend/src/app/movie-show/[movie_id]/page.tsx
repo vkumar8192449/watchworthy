@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { notFound } from "next/navigation";
 import RatingForm from "../../../components/RatingForm"; // Adjust the import based on your file structure
+import Header from "../../../components/Header"; // Adjust the import based on your file structure
 
 interface MovieDetail {
   movie_id: number;
@@ -50,27 +51,34 @@ const MovieDetail = ({ params }: { params: { movie_id: string } }) => {
   if (!movie) return notFound(); // Handle case where movie is not found
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 py-8">
-      <div className="bg-white shadow-lg rounded-lg p-6 max-w-3xl w-full">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">{movie.title}</h1>
-        <p className="text-gray-600 mb-2">Release Year: {movie.release_year}</p>
-        <p className="text-gray-700 mb-2">Genre: {movie.genre}</p>
-        <p className="text-gray-800 mb-4">{movie.description}</p>
-        <h2 className="text-2xl font-semibold mb-2">Ratings:</h2>
-        <ul>
-          {movie.ratings.map((rating, index) => (
-            <li key={index} className="mb-1">
-              {rating.user.username}: {rating.rating} ⭐ - {rating.review}
-            </li>
-          ))}
-        </ul>
-        <br />
-        <RatingForm
-          movieId={movie.movie_id}
-          onRatingSubmitted={handleRatingSubmitted}
-        />
+    <>
+      <Header />
+      <div className="min-h-screen flex flex-col items-center bg-gray-100 py-8">
+        <div className="bg-white shadow-lg rounded-lg p-6 max-w-3xl w-full">
+          <h1 className="text-3xl font-bold text-gray-800 mb-4">
+            {movie.title}
+          </h1>
+          <p className="text-gray-600 mb-2">
+            Release Year: {movie.release_year}
+          </p>
+          <p className="text-gray-700 mb-2">Genre: {movie.genre}</p>
+          <p className="text-gray-800 mb-4">{movie.description}</p>
+          <h2 className="text-2xl font-semibold mb-2">Ratings:</h2>
+          <ul>
+            {movie.ratings.map((rating, index) => (
+              <li key={index} className="mb-1">
+                {rating.user.username}: {rating.rating} ⭐ - {rating.review}
+              </li>
+            ))}
+          </ul>
+          <br />
+          <RatingForm
+            movieId={movie.movie_id}
+            onRatingSubmitted={handleRatingSubmitted}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

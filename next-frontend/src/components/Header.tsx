@@ -6,10 +6,11 @@ import { useUser } from "../../context/UserContext";
 import { useState } from "react";
 
 const Header = () => {
-  const { user } = useUser();
+  const { user, logout } = useUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = () => {
+    logout();
     setDropdownOpen(false); // Close dropdown after logout
   };
 
@@ -53,7 +54,7 @@ const Header = () => {
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 bg-white text-blue-600 shadow-lg rounded-lg py-2 w-48 z-10 transition-all duration-300 ease-in-out">
-                  <Link href="/all-ratings">
+                  <Link href="/mydashboard">
                     <span className="block px-4 py-2 hover:bg-gray-100 cursor-pointer transition">
                       My Dash
                     </span>

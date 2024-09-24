@@ -18,8 +18,7 @@ interface User {
 
 interface UserContextProps {
   user: User | null;
-  setUser: (user: User | null) => void;
-  fetchUser: () => void;
+  logout: () => void;
 }
 
 // Create the UserContext
@@ -49,8 +48,18 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     fetchUser(); // Fetch user details when the app loads
   }, []);
 
+  const logout = () => {
+    // Call logout API and clear user state
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/logout`, {
+        withCredentials: true,
+      })
+      .then(() => setUser(null))
+      .catch((err) => console.error("Logout failed", err));
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, fetchUser }}>
+    <UserContext.Provider value={{ user, logout }}>
       {children}
     </UserContext.Provider>
   );

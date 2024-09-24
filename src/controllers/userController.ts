@@ -95,7 +95,7 @@ export const loginUserController = async (req: Request, res: Response) => {
 };
 
 export const logoutUserController = async (req: Request, res: Response) => {
-  res.clearCookie("WatchWorthy-Token", {
+  res.clearCookie("WatchWorthyToken", {
     httpOnly: true,
     secure: true,
     sameSite: "none",

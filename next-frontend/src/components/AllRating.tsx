@@ -52,7 +52,7 @@ const AllRatings = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 py-8">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">All Ratings</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">My Ratings</h1>
       <ul className="w-full max-w-4xl">
         {ratings.map((rating) => (
           <li
