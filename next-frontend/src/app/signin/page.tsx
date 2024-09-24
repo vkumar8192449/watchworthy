@@ -1,5 +1,3 @@
-// src/components/SignIn.js
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,7 +13,7 @@ const SignIn = () => {
 
   const { user, fetchUser } = useUser();
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
@@ -35,7 +33,7 @@ const SignIn = () => {
       console.log("Sign in successful:", response.data);
       fetchUser();
       router.push("/"); // Redirect to homepage or dashboard
-    } catch (err: any) {
+    } catch (err) {
       // Check if it's an error response from the server
       if (err.response && err.response.data) {
         setError(err.response.data.message || "An error occurred");

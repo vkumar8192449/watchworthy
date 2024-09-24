@@ -25,7 +25,7 @@ export const createRatingController = async (
       data: { user_id, movie_id, rating, review },
     });
     res.json(newRating);
-  } catch (error: any) {
+  } catch (error) {
     res.status(400).json({ error: error.message || "Rating creation failed" });
   }
 };

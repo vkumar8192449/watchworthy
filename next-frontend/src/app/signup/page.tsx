@@ -1,5 +1,3 @@
-// src/components/SignUp.js
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -16,12 +14,12 @@ const SignUp = () => {
 
   const { user } = useUser();
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/create`,
         {
           username,
@@ -33,7 +31,7 @@ const SignUp = () => {
       // Handle successful sign up (e.g., redirect or save token)
       // console.log("Sign up successful:", response.data);
       router.push("/signin"); // Redirect to homepage or dashboard
-    } catch (err: any) {
+    } catch (err) {
       // Check if it's an error response from the server
       if (err.response && err.response.data) {
         setError(err.response.data.message || "An error occurred");

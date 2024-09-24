@@ -1,5 +1,3 @@
-// src/components/AddMovie.tsx
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -25,7 +23,7 @@ const AddMovie = () => {
     setSuccess("");
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/movies/add-movieshow`,
         {
           title,
@@ -48,7 +46,7 @@ const AddMovie = () => {
 
       // Optionally redirect after successful creation
       //   router.push("/"); // Redirect to homepage or list of movies/shows
-    } catch (err: any) {
+    } catch (err) {
       if (err.response && err.response.data) {
         setError(err.response.data.message || "An error occurred");
       } else {

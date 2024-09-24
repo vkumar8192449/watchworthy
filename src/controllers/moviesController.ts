@@ -29,7 +29,7 @@ export const createMoviesController = async (
       data: { title, genre, release_year, description },
     });
     res.json(movie);
-  } catch (error: any) {
+  } catch (error) {
     res.status(400).json({ error: error.message || "Movie creation failed" });
   }
 };
@@ -54,7 +54,7 @@ export const getAllMoviesController = async (req: Request, res: Response) => {
       totalMovies,
       hasMore: page * limit < totalMovies, // Whether there are more movies to load
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({ error: "Failed to retrieve movies." });
   }
 };
@@ -85,7 +85,7 @@ export const getMovieDetailsController = async (
     }
 
     res.json(movie);
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({
       error: error.message || "An error occurred while fetching movie details",
     });

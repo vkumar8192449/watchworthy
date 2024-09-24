@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import { useUser } from "../../context/UserContext";
-import { use, useState } from "react";
+import { useState } from "react";
 
 // interface AuthenticatedUser {
 //   userId: number;
