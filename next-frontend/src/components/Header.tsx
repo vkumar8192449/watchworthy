@@ -79,6 +79,15 @@ const Header = () => {
                       My Dash
                     </span>
                   </Link>
+                  {user.user.type === "admin" ? (
+                    <Link href="/addmovie">
+                      <span className="block px-4 py-2 hover:bg-gray-100 cursor-pointer transition">
+                        Add Movie/Show
+                      </span>
+                    </Link>
+                  ) : (
+                    <></>
+                  )}
                   <button
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer transition"

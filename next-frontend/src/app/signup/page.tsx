@@ -2,9 +2,10 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useUser } from "../../../context/UserContext";
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -12,6 +13,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+
+  const { user } = useUser();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -39,6 +42,12 @@ const SignUp = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

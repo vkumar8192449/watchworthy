@@ -9,18 +9,20 @@ import {
 } from "react";
 import axios from "axios";
 
-interface UserProp {
-  user: User;
-  message: string;
-}
 interface User {
   userId: number;
   username: string;
   type: string;
 }
 
+interface UserProp {
+  user: User;
+  message: string;
+}
+
 interface UserContextProps {
   user: UserProp | null;
+  loading: boolean; // Add loading state
   fetchUser: () => void;
   logout: () => void;
 }
@@ -31,9 +33,11 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 // Create a provider component
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserProp | null>(null);
+  const [loading, setLoading] = useState(true); // Initialize loading state
 
   // Function to fetch the current logged-in user
   const fetchUser = async () => {
+    setLoading(true); // Set loading to true before the fetch
     try {
       const response = await axios.get<UserProp>(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/current`,
@@ -41,10 +45,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           withCredentials: true, // Ensure cookies are sent with requests
         }
       );
-      setUser(response.data);
+      setUser(response.data); // Update user state with fetched data
     } catch (err) {
       console.error("Error fetching user details:", err);
       setUser(null); // Reset user state if error occurs
+    } finally {
+      setLoading(false); // Set loading to false after fetch completes
     }
   };
 
@@ -63,7 +69,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, fetchUser, logout }}>
+    <UserContext.Provider value={{ user, loading, fetchUser, logout }}>
       {children}
     </UserContext.Provider>
   );
