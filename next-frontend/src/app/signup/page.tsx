@@ -29,7 +29,7 @@ const SignUp = () => {
 
       // Handle successful sign up (e.g., redirect or save token)
       // console.log("Sign up successful:", response.data);
-      router.push("/"); // Redirect to homepage or dashboard
+      router.push("/signin"); // Redirect to homepage or dashboard
     } catch (err: any) {
       // Check if it's an error response from the server
       if (err.response && err.response.data) {

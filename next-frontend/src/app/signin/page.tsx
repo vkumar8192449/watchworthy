@@ -5,12 +5,15 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useUser } from "../../../context/UserContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
+
+  const { fetchUser } = useUser();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -30,6 +33,7 @@ const SignIn = () => {
 
       // Handle successful sign in (e.g., redirect or save token)
       console.log("Sign in successful:", response.data);
+      fetchUser();
       router.push("/"); // Redirect to homepage or dashboard
     } catch (err: any) {
       // Check if it's an error response from the server

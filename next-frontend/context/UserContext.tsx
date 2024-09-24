@@ -9,15 +9,19 @@ import {
 } from "react";
 import axios from "axios";
 
+interface UserProp {
+  user: User;
+  message: string;
+}
 interface User {
   userId: number;
   username: string;
   type: string;
-  // Add other fields based on your user schema
 }
 
 interface UserContextProps {
-  user: User | null;
+  user: UserProp | null;
+  fetchUser: () => void;
   logout: () => void;
 }
 
@@ -26,12 +30,12 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 // Create a provider component
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserProp | null>(null);
 
   // Function to fetch the current logged-in user
   const fetchUser = async () => {
     try {
-      const response = await axios.get<User>(
+      const response = await axios.get<UserProp>(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/current`,
         {
           withCredentials: true, // Ensure cookies are sent with requests
@@ -59,7 +63,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, logout }}>
+    <UserContext.Provider value={{ user, fetchUser, logout }}>
       {children}
     </UserContext.Provider>
   );

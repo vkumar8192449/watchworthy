@@ -3,10 +3,30 @@
 
 import Link from "next/link";
 import { useUser } from "../../context/UserContext";
-import { useState } from "react";
+import { use, useState } from "react";
+
+// interface AuthenticatedUser {
+//   userId: number;
+//   type: string;
+//   username: string;
+//   iat: number;
+//   exp: number;
+// }
+
+interface UserProp {
+  user: User;
+  message: string;
+}
+interface User {
+  userId: number;
+  username: string;
+  type: string;
+  // Add other fields based on your user schema
+}
 
 const Header = () => {
-  const { user, logout } = useUser();
+  const { user }: { user: UserProp | null } = useUser();
+  const { logout } = useUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleLogout = () => {
@@ -50,7 +70,7 @@ const Header = () => {
                 className="flex items-center space-x-2 bg-white text-blue-600 px-4 py-2 rounded-lg shadow-sm hover:bg-gray-100 transform transition hover:scale-105 duration-300 ease-in-out"
               >
                 <span>👤</span>
-                <span className="font-medium">{user.username}</span>
+                <span className="font-medium">{user.user.username}</span>
               </button>
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 bg-white text-blue-600 shadow-lg rounded-lg py-2 w-48 z-10 transition-all duration-300 ease-in-out">
