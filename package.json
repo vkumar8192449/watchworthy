@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "compile": "npm i typescript && npx tsc",
+    "compile": "npx tsc",
     "dev": "npm run compile && nodemon src/index.js",
-    "start": "npm run compile && node src/index.js"
+    "start": "npm run compile && node src/index.js",
+    "hero": "node src/index.js"
   },
   "keywords": [],
   "author": "",
