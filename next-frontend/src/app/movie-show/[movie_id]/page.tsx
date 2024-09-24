@@ -26,6 +26,7 @@ const MovieDetail = ({ params }: { params: { movie_id: string } }) => {
 
   const fetchMovieDetails = async () => {
     try {
+      console.log("Hy2- " + params.movie_id);
       const response = await axios.get<MovieDetail>(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/movies/${params.movie_id}`
       );
@@ -39,7 +40,9 @@ const MovieDetail = ({ params }: { params: { movie_id: string } }) => {
   };
 
   useEffect(() => {
+    console.log("Hy1- " + params.movie_id);
     fetchMovieDetails();
+    console.log("Hy3- " + params.movie_id);
   }, [params.movie_id]);
 
   const handleRatingSubmitted = () => {

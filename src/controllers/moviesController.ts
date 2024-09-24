@@ -64,7 +64,7 @@ export const getMovieDetailsController = async (
   res: Response
 ) => {
   const { movie_id } = req.params; // Assuming movie_id is passed as a URL parameter
-
+  console.log(req.params);
   try {
     // Fetch movie details along with ratings
     const movie = await prisma.movie.findUnique({
