@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { notFound } from "next/navigation";
-import RatingForm from "../../../../components/RatingForm"; // Adjust the import based on your file structure
+import RatingForm from "../../../components/RatingForm"; // Adjust the import based on your file structure
 
 interface MovieDetail {
   movie_id: number;
