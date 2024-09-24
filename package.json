@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "compile": "npx tsc",
+    "compile": "npm i typescript && tsc",
     "dev": "npm run compile && nodemon src/index.js",
     "start": "npm run compile && node src/index.js"
   },
