@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect } from "react";
 // import { useEffect, useState } from "react";
 // import axios from "axios";
 // import { notFound } from "next/navigation";
@@ -20,6 +20,10 @@
 // }
 
 const MovieDetail = ({ params }: { params: { movie_id: string } }) => {
+  useEffect(() => {
+    console.log(params.movie_id);
+  }, [params]);
+
   return <h1>{params.movie_id}</h1>;
   // const [movie, setMovie] = useState<MovieDetail | null>(null);
   // const [loading, setLoading] = useState(true);
