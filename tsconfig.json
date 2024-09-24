@@ -108,5 +108,5 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": ["**/*.ts"], // Include all .ts files in the directory and subdirectories
-  "exclude": ["node_modules", "frontend"] // Exclude node_modules and frontend folder
+  "exclude": ["node_modules", "next-frontend"] // Exclude node_modules and frontend folder
 }
