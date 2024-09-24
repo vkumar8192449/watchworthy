@@ -1,23 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { notFound } from "next/navigation";
-import RatingForm from "../../../components/RatingForm"; // Adjust the import based on your file structure
-import Header from "../../../components/Header"; // Adjust the import based on your file structure
+// import { useEffect, useState } from "react";
+// import axios from "axios";
+// import { notFound } from "next/navigation";
+// import RatingForm from "../../../components/RatingForm"; // Adjust the import based on your file structure
+// import Header from "../../../components/Header"; // Adjust the import based on your file structure
 
-interface MovieDetail {
-  movie_id: number;
-  title: string;
-  release_year: number;
-  genre: string;
-  description: string;
-  ratings: Array<{
-    user: { username: string };
-    rating: number;
-    review: string;
-  }>;
-}
+// interface MovieDetail {
+//   movie_id: number;
+//   title: string;
+//   release_year: number;
+//   genre: string;
+//   description: string;
+//   ratings: Array<{
+//     user: { username: string };
+//     rating: number;
+//     review: string;
+//   }>;
+// }
 
 const MovieDetail = ({ params }: { params: { movie_id: string } }) => {
   return <h1>{params.movie_id}</h1>;
