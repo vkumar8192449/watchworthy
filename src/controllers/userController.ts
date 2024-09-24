@@ -18,7 +18,7 @@ export const createUserController = async (req: Request, res: Response) => {
     if (
       !validator.isEmail(email) ||
       username.length < 6 ||
-      !validator.isAlpha(username)
+      !validator.isAlphanumeric(username)
     ) {
       throw new Error("Invalid inputs");
     }
