@@ -2,7 +2,6 @@ import express from "express";
 import userRoutes from "./routes/userRoutes";
 import movieRoutes from "./routes/moviesRoutes";
 import ratingRoutes from "./routes/ratingRoutes";
-import cronjobRoutes from "./routes/cronjobRoutes";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
