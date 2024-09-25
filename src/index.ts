@@ -28,7 +28,8 @@ app.use("/api/movies", movieRoutes);
 app.use("/api/rating", ratingRoutes);
 
 // Cron Job
-app.use("/", cronjobRoutes);
+import { cronJobController } from "./controllers/cronJobController";
+app.use("/", cronJobController);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
