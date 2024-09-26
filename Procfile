@@ -1,1 +1,1 @@
-web: node src/index.js
+web: npm run compile && node dist/index.js
