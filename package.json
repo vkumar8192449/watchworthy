@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "compile": "npx tsc",
-    "dev": "npm run compile && nodemon src/index.js",
-    "start": "npm run compile && node src/index.js"
+    "build": "npx tsc",
+    "dev": "npm run build && nodemon src/index.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
