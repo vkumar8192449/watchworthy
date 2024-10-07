@@ -23,6 +23,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -t -i keyfile ubuntu@"$SSH_PUBLIC_IP_KEY" << 'EOF'
             cd watchworthy/
             git pull origin main
+            source ~/.nvm/nvm.sh
             npm install
             npx tsc
             pm2 kill
