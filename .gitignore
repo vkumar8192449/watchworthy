@@ -14,3 +14,5 @@ build/
 # Ignore all .js files and .map files
 *.js
 *.js.map
+
+watch-worthy-key2.pem
