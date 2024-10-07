@@ -19,9 +19,12 @@ jobs:
           SSH_PUBLIC_IP_KEY: ${{ secrets.SSH_PUBLIC_IP_KEY }}
         run: |
           echo "$SSH_PRIVATE_KEY" > keyfile
-          ssh -i keyfile ubuntu@"$SSH_PUBLIC_IP_KEY"
-          cd watchworthy/
-          npm i
-          npx tsc
-          pm2 kill
-          pm2 start src/index.js
+          chmod 600 keyfile  # Secure the key file
+          ssh -o StrictHostKeyChecking=no -t -i keyfile ubuntu@"$SSH_PUBLIC_IP_KEY" << 'EOF'
+            cd watchworthy/
+            git pull origin main
+            npm install
+            npx tsc
+            pm2 kill
+            pm2 start src/index.js
+          EOF
